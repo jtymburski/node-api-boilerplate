@@ -26,5 +26,8 @@ setTimeout(() => {
   describe('Sample', () => {
     // Create
     require('./sample/create').test(chai, server.app, config);
+
+    // Get All
+    require('./sample/getAll').test(chai, server.app, config);
   });
 }, process.env.START_DELAY || 5000);
