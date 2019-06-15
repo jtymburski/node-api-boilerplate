@@ -24,8 +24,7 @@ setTimeout(() => {
   // ** TESTS **
 
   describe('Sample', () => {
-    it('it should pass', (done) => {
-      done();
-    });
+    // Create
+    require('./sample/create').test(chai, server.app, config);
   });
 }, process.env.START_DELAY || 5000);
