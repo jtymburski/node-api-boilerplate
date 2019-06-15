@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid/v4');
+const randomString = require('crypto-random-string');
 
 module.exports = {
   failure: failure,
@@ -11,23 +11,23 @@ module.exports = {
 
 function failure(err, req, res, next) {
   if (err.status) {
-    logger.info(`${req.logId}: FAILURE ${err.status} with response ${req.logResponse}`);
+    logger.info(`[${req.logId}] FAILURE ${err.status} with response ${req.logResponse}`);
   } else {
-    logger.error(`${req.logId}: FATAL - ${err.stack}`);
+    logger.error(`[${req.logId}] FATAL - ${err.stack}`);
   }
 }
 
 function middle(req, info) {
   if (req && info) {
-    logger.info(`${req.logId}: ${info}`);
+    logger.info(`[${req.logId}] ${info}`);
   }
 }
 
 function start(req, res, next) {
   const redactedBody = redactSensitive(req.body);
 
-  req.logId = uuidv4();
-  logger.info(`${req.logId}: ${req.method} ${req.originalUrl} with request ${JSON.stringify(redactedBody)}`);
+  req.logId = randomString({ length: 12 });
+  logger.info(`[${req.logId}] ${req.method} ${req.originalUrl} with request ${JSON.stringify(redactedBody)}`);
 
   cacheResponse(req, res, next);
 
@@ -35,7 +35,7 @@ function start(req, res, next) {
 }
 
 function success(req, res, next) {
-  logger.info(`${req.logId}: SUCCESS with response ${req.logResponse}`);
+  logger.info(`[${req.logId}] SUCCESS with response ${req.logResponse}`);
 }
 
 // INTERNALS
