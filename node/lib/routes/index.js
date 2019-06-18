@@ -1,4 +1,17 @@
 module.exports = (app) => {
+  const express = require('express');
+  const router = express.Router();
+
+  /**
+   * routes
+   */
+  router.use('/sample', require('./sample/controller')(app));
+
+  /**
+   * default root route for api
+   */
+  app.use('/api/v1', router);
+
   /**
    * catch all for unset paths
    */

@@ -4,6 +4,8 @@ module.exports = {
   isInvalid: isInvalid,
   isValid: isValid,
   processError: processError
+  processError: processError,
+  success: success
 };
 
 // EXPORTS
@@ -35,6 +37,11 @@ function processError(err, next) {
   } else {
     next(new Error(err));
   }
+}
+
+function success(req, res, successCode, successJson) {
+  res.status(successCode).json(successJson);
+  LogRequest.success(req);
 }
 
 // INTERNALS
