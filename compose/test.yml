@@ -23,6 +23,10 @@ services:
     networks:
       - testing
     environment:
+      DB_HOST: testmongo
+      DB_DATABASE: testapp
+      DB_USER: appaccess
+      DB_PASSWORD: secret123
       NODE_ENV: test
     command: "npm test"
 

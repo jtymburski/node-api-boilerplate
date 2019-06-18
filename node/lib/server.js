@@ -52,16 +52,20 @@ module.exports = {
                           { prettyPrint: true, level: consoleLogLevel }));
     }
 
-    // configure API routes
-    require('./routes')(app);
+    // set up the db
+    return require('./db/connect')(app)
+      .then(() => {
+        // configure API routes
+        require('./routes')(app);
+        app.port = process.env.PORT || 3000;
 
-    // express promise chain
-    app.port = process.env.PORT || 3000;
-    return Promise.all([ readFile('./ssl/server.key'),
-                         readFile('./ssl/server.crt'),
-                         readFile('./ssl/server.chain') ])
+        // try to find ssl key and chain
+        return Promise.all([ readFile('./ssl/server.key'),
+                             readFile('./ssl/server.crt'),
+                             readFile('./ssl/server.chain') ]);
+      })
       .then((sslInfo) => {
-        // decide between HTTPS and HTTP, based on if the SSL files were provided
+        // decide between HTTPS and HTTP, based on if the ssl key was found
         const key = sslInfo[0];
         const cert = sslInfo[1];
         const chain = sslInfo[2];
@@ -74,7 +78,7 @@ module.exports = {
             require('http').createServer(app));
       })
       .then((http) => {
-        // connect to the port
+        // open the port to the express server
         return new Promise((resolve, reject) => {
           http.listen(app.port, () => resolve(app))
               .on('error', (err) => reject(err));

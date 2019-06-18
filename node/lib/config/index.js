@@ -1,7 +1,8 @@
 module.exports = (env) => {
   const config = getConfig(env);
   return {
-    'env': config.env,
+    dbUri: `mongodb://${config.dbUser}:${config.dbPassword}@${config.dbHost}:${config.dbPort}/${config.dbDatabase}`,
+    env: config.env,
   };
 };
 

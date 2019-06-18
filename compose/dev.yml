@@ -33,6 +33,11 @@ services:
       - ./node:/home/node/app
     ports:
       - 3000:3000
+    environment:
+      DB_HOST: mongo
+      DB_DATABASE: devapp
+      DB_USER: appaccess
+      DB_PASSWORD: secret123
     command: "npm run dev"
   swagger:
     image: swaggerapi/swagger-ui

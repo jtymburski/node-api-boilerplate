@@ -16,6 +16,7 @@ setTimeout(() => {
     })
     .catch((err) => {
       logger.error(`Test server start error: ${err}`);
+      process.exit(1);
     });
 
   // Config
