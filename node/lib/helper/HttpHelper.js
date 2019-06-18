@@ -3,7 +3,7 @@ const isNil = require('lodash/isNil');
 module.exports = {
   isInvalid: isInvalid,
   isValid: isValid,
-  processError: processError
+  isValidWithError: isValidWithError,
   processError: processError,
   success: success
 };
@@ -21,10 +21,14 @@ function isInvalid(object, errorCode, errorMessage, success) {
 }
 
 function isValid(object, errorCode, errorMessage, success) {
+  return isValidWithError(object, getError(errorCode, errorMessage), success);
+}
+
+function isValidWithError(object, error, success) {
   success = success !== undefined ? success : object;
   return new Promise((resolve, reject) => {
     if (isNil(object)) {
-      reject(getError(errorCode, errorMessage));
+      reject(error);
     } else {
       resolve(success);
     }
@@ -32,7 +36,7 @@ function isValid(object, errorCode, errorMessage, success) {
 }
 
 function processError(err, next) {
-  if (err.status) {
+  if (err.message && err.stack) {
     next(err);
   } else {
     next(new Error(err));

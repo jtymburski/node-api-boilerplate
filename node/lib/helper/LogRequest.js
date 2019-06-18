@@ -11,9 +11,12 @@ module.exports = {
 
 function failure(err, req, res, next) {
   if (err.status) {
-    logger.info(`[${req.logId}] FAILURE ${err.status} with response ${req.logResponse}`);
+    if (err.logDetails) {
+      middle(req, err.logDetails);
+    }
+    logger.info(`${req.logId}: FAILURE ${err.status} with response ${req.logResponse}`);
   } else {
-    logger.error(`[${req.logId}] FATAL - ${err.stack}`);
+    logger.error(`${req.logId}: FATAL - ${err.stack}`);
   }
 }
 
