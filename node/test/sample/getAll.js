@@ -11,11 +11,11 @@ module.exports = {
 
 function request(chai, app, config) {
   return chai.request(app)
-      .get(`${config.BASE_PATH}/sample`);
+      .get(`${config.BASE_PATH}/sample/data`);
 }
 
 function test(chai, app, config) {
-  describe('/GET sample', () => {
+  describe('/GET sample/data', () => {
 
     // Create a starting set of test announcements
     const minCount = 2;

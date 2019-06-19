@@ -8,10 +8,23 @@ module.exports = (app) => {
 
   controller.route('/data')
     // gets all samples
-    .get(getAll);
+    .get(getAll)
+    // create a sample
+    .post(create);
 
   return controller;
 };
+
+/**
+ * Creates a single sample
+ * @in SampleInfo create model
+ * @out SampleInfo result model
+ */
+function create(req, res, next) {
+  DbSample.create(req.body.name, req.body.description, req.body.age)
+    .then(sample => HttpHelper.success(req, res, 201, sample))
+    .catch(err => HttpHelper.processError(err, next));
+}
 
 /**
  * Fetches all samples

@@ -29,7 +29,7 @@ function generateInput(age) {
 
 function request(chai, app, config, authKey) {
   let chaiRequest = chai.request(app)
-      .post(`${config.BASE_PATH}/sample`);
+      .post(`${config.BASE_PATH}/sample/data`);
   if (authKey) {
     chaiRequest = chaiRequest.set(config.AUTH_FIELD, `${config.AUTH_KEY_PREFIX}${authKey}`);
   }
@@ -37,7 +37,7 @@ function request(chai, app, config, authKey) {
 }
 
 function test(chai, app, config) {
-  describe('/POST sample', () => {
+  describe('/POST sample/data', () => {
     const goodInput = generateInput();
 
     // Fail on lack of an auth key
