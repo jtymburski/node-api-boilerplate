@@ -31,6 +31,17 @@ function test(chai, app, config) {
           info.should.have.property('id');
           info.should.have.property('name');
           info.should.have.property('description');
+
+          // Make sure there is no unexpected key-value pairs
+          const checkedObj = {
+            id: info.id,
+            name: info.name,
+            description: info.description
+          };
+          if (info.age) {
+            checkedObj.age = info.age;
+          }
+          info.should.equal(checkedObj);
         }
         done();
       });

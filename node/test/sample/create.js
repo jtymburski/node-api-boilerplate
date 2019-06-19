@@ -119,11 +119,20 @@ function executeWithInput(chai, app, config, input, done) {
 
       res.body.name.should.equal(input.name);
       res.body.description.should.equal(input.description);
+      const checkedObj = {
+        id: res.body.id,
+        name: res.body.name,
+        description: res.body.description
+      };
 
       if (input.age) {
         res.body.should.have.property('age');
         res.body.age.should.equal(input.age);
+        checkedObj.age = res.body.age;
       }
+
+      // The body should only contain the checked keys above
+      res.body.should.equal(checkedObj);
 
       done(res.body);
     });
