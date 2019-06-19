@@ -26,7 +26,7 @@ function test(chai, app, config) {
     // Succeed on normal fetch
     it('it should succeed to fetch all sample objects', (done) => {
       execute(chai, app, config, (infoSet) => {
-        for (let info in infoSet) {
+        for (let info of infoSet) {
           info.should.be.a('object');
           info.should.have.property('id');
           info.should.have.property('name');
@@ -41,7 +41,7 @@ function test(chai, app, config) {
           if (info.age) {
             checkedObj.age = info.age;
           }
-          info.should.equal(checkedObj);
+          info.should.eql(checkedObj);
         }
         done();
       });

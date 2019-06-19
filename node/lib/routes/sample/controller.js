@@ -1,4 +1,5 @@
 const DbSample = require(`${__root}db/model/sample`);
+const ModelInfo = require('./model/info');
 
 module.exports = (app) => {
   if (!app) throw new Error('Missing parameter: \'app\' not provided');
@@ -10,7 +11,7 @@ module.exports = (app) => {
     // gets all samples
     .get(getAll)
     // create a sample
-    .post(create);
+    .post(ModelInfo.validate, create);
 
   return controller;
 };
@@ -22,7 +23,7 @@ module.exports = (app) => {
  */
 function create(req, res, next) {
   DbSample.create(req.body.name, req.body.description, req.body.age)
-    .then(sample => HttpHelper.success(req, res, 201, sample))
+    .then(sample => HttpHelper.success(req, res, 201, ModelInfo.from(sample)))
     .catch(err => HttpHelper.processError(err, next));
 }
 
@@ -32,6 +33,6 @@ function create(req, res, next) {
  */
 function getAll(req, res, next) {
   DbSample.getAll()
-    .then(samples => HttpHelper.success(req, res, 200, samples))
+    .then(samples => HttpHelper.success(req, res, 200, ModelInfo.fromAll(samples)))
     .catch(err => HttpHelper.processError(err, next));
 }

@@ -132,7 +132,7 @@ function executeWithInput(chai, app, config, input, done) {
       }
 
       // The body should only contain the checked keys above
-      res.body.should.equal(checkedObj);
+      res.body.should.eql(checkedObj);
 
       done(res.body);
     });
