@@ -11,7 +11,7 @@ module.exports = (app) => {
     // gets all samples
     .get(getAll)
     // create a sample
-    .post(ModelInfo.validate, create);
+    .post(app.auth, ModelInfo.validate, create);
 
   return controller;
 };
